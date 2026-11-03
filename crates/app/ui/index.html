@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hei Player</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body data-theme="dark">
+<header>
+  <div class="logo">▶</div>
+  <h1>Hei Player</h1>
+  <nav id="tabs">
+    <button class="tab active" data-tab="library">素材库</button>
+    <button class="tab" data-tab="rundown">节目单</button>
+    <button class="tab" data-tab="schedule">定时</button>
+    <button class="tab" data-tab="cards">文字卡</button>
+    <button class="tab" data-tab="settings">设置</button>
+  </nav>
+  <span class="dev" id="dev"></span>
+  <button class="ghost mini-btn" id="btn-mini" title="迷你条">▬</button>
+  <button class="ghost" id="btn-top" title="窗口置顶">📌</button>
+</header>
+
+<!-- 素材库 -->
+<section class="page active" id="page-library">
+  <div class="toolbar">
+    <button class="primary" id="btn-open">打开文件…</button>
+    <button id="btn-record">🎙 开始录音</button>
+    <input id="search" placeholder="搜索:名称 / 拼音" />
+    <div class="groups" id="groups"></div>
+    <button class="ghost" id="btn-add-group">＋分组</button>
+  </div>
+  <main><div class="cards" id="cards"></div>
+    <div class="empty" id="lib-empty">
+      <div class="big">素材库是空的</div>
+      <div>打开音频文件、录音,或用手机扫码上传</div>
+    </div>
+  </main>
+</section>
+
+<!-- 节目单 -->
+<section class="page" id="page-rundown">
+  <div class="toolbar">
+    <button class="primary" id="btn-rundown-play">▶ 播放节目单</button>
+    <button id="btn-rundown-stopall">淡出全停</button>
+    <label class="inline"><input type="checkbox" id="rundown-enabled" /> 播完自动接下一条</label>
+    <span class="dim" style="margin-left:auto">素材卡片上的「＋节目单」把素材加进来,↑↓ 排序</span>
+  </div>
+  <main><ol class="rundown" id="rundown"></ol>
+    <div class="empty" id="rundown-empty"><div class="big">节目单为空</div></div>
+  </main>
+</section>
+
+<!-- 定时 -->
+<section class="page" id="page-schedule">
+  <div class="toolbar">
+    <button class="primary" id="btn-task-add">＋ 新建定时</button>
+    <span class="dim">到点自动播放(本机须保持运行)</span>
+  </div>
+  <main><div id="tasks"></div></main>
+</section>
+
+<!-- 文字卡 -->
+<section class="page" id="page-cards">
+  <div class="toolbar">
+    <input id="card-title" placeholder="标题(如:婚礼串词)" style="width:180px" />
+    <button class="primary" id="btn-card-add">＋ 新建文字卡</button>
+    <span class="dim">文字卡可在手机「司仪宝」页面全屏显示</span>
+  </div>
+  <main><div class="cards" id="textcards"></div></main>
+</section>
+
+<!-- 设置 -->
+<section class="page" id="page-settings">
+  <main><div class="settings" id="settings"></div></main>
+</section>
+
+<!-- 底部传输条 -->
+<footer>
+  <span id="foot-playing" class="dim">空闲</span>
+  <span class="spacer"></span>
+  <label class="inline">主音量 <input type="range" id="master" min="0" max="2" step="0.05" value="1" /></label>
+  <label class="inline">节拍器
+    <input type="checkbox" id="metro-on" />
+    <input type="number" id="metro-bpm" min="30" max="300" value="120" style="width:64px" /> BPM
+  </label>
+  <button class="ghost" id="btn-fadeout">全部淡出</button>
+  <button class="danger" id="btn-stopall">■ 全停</button>
+  <button class="ghost" id="btn-remote">📱 手机遥控</button>
+</footer>
+
+<!-- 通用输入/确认对话框(WKWebView 不支持原生 prompt/confirm) -->
+<div class="modal" id="prompt-modal" hidden>
+  <div class="modal-card" style="text-align:left;min-width:340px">
+    <h3 id="prompt-title" style="margin-bottom:10px"></h3>
+    <input id="prompt-input" style="width:100%;margin-bottom:12px" />
+    <select id="prompt-select" style="width:100%;margin-bottom:12px" hidden></select>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button id="prompt-cancel">取消</button>
+      <button id="prompt-ok" class="primary">确定</button>
+    </div>
+  </div>
+</div>
+
+<!-- 手机遥控弹层 -->
+<div class="modal" id="remote-modal" hidden>
+  <div class="modal-card">
+    <h3>手机遥控 / 上传 / 司仪宝</h3>
+    <p class="dim">手机与电脑连同一 Wi-Fi,扫码打开</p>
+    <div id="remote-qr" class="qr"></div>
+    <p class="dim" id="remote-url"></p>
+    <button onclick="document.getElementById('remote-modal').hidden=true">关闭</button>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

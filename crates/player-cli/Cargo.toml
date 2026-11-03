@@ -1,0 +1,16 @@
+[package]
+name = "hei-cli"
+description = "P0 命令行试听器:验证播放引擎(play 文件 / tone 合成)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "hei-cli"
+path = "src/main.rs"
+
+[dependencies]
+playback = { workspace = true }
+decode = { workspace = true }
+crossbeam-channel = { workspace = true }
+anyhow = { workspace = true }

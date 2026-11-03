@@ -1,0 +1,11 @@
+[package]
+name = "decode"
+description = "音频解码:symphonia 全内存解码为交错 f32(后续冷门格式走 ffmpeg 子进程)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+symphonia = { workspace = true }
+anyhow = { workspace = true }
+playback = { workspace = true }

@@ -1,0 +1,51 @@
+name: Build
+
+on:
+  push:
+    branches: ["**"]
+    tags: ["v*"]
+  workflow_dispatch:
+
+jobs:
+  macos:
+    name: macOS (arm64)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Build release
+        run: cargo build --release -p hei-app
+      - name: Package .app + .dmg
+        run: bash scripts/package-mac.sh
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: HeiPlayer-macos-arm64
+          path: |
+            dist/HeiPlayer-*.dmg
+            dist/HeiPlayer.app
+          if-no-files-found: error
+
+  windows:
+    name: Windows (x64 NSIS)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Build installer
+        working-directory: crates/app
+        shell: bash
+        run: npx --yes @tauri-apps/cli@2 build --bundles nsis
+      - name: Locate installer
+        shell: bash
+        run: find target -path '*bundle/nsis/*.exe' -print || find crates/app/target -path '*bundle/nsis/*.exe' -print
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: HeiPlayer-windows-x64
+          path: |
+            target/release/bundle/nsis/*.exe
+            crates/app/target/release/bundle/nsis/*.exe
+          if-no-files-found: error

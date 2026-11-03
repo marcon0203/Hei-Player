@@ -1,0 +1,31 @@
+[package]
+name = "hei-app"
+description = "Hei Player 桌面客户端(Tauri 2 壳 + Rust 播放引擎)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "HeiPlayer"
+path = "src/main.rs"
+
+[build-dependencies]
+tauri-build = { workspace = true }
+
+[dependencies]
+tauri = { workspace = true }
+tauri-plugin-dialog = { workspace = true }
+tauri-plugin-global-shortcut = { workspace = true }
+axum = { workspace = true }
+tokio = { workspace = true }
+serde_json = { workspace = true }
+midir = { workspace = true }
+qrcode = { workspace = true }
+cpal = { workspace = true }
+pinyin = { workspace = true }
+playback = { workspace = true }
+decode = { workspace = true }
+serde = { workspace = true }
+anyhow = { workspace = true }
+parking_lot = { workspace = true }
+crossbeam-channel = { workspace = true }

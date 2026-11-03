@@ -1,0 +1,13 @@
+[package]
+name = "playback"
+description = "音频播放引擎:cpal 输出 + 多轨混音/淡入淡出/变速/倒放/循环"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+cpal = { workspace = true }
+crossbeam-channel = { workspace = true }
+anyhow = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+rayon = { workspace = true }
